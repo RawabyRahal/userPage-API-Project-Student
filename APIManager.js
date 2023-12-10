@@ -4,53 +4,55 @@ class APIManager {
     constructor() {
         this.data = {}
     }
+    getAllData() {
+
+        // API Users & freinds
+        const numberOfUsers = 7
+        const promiseUsers = $.get(`https://randomuser.me/api/?results=${numberOfUsers}`)
+
+        // API Quotes
+        const promiseQuotes = $.get(`https://api.kanye.rest`)
+
+        // API About me
+        const promiseAboutMe = $.get(`https://baconipsum.com/api/?type=all-meat&paras=1`)
+
+        // API Pokemons
+        const numberOfPokemons = 949
+        const randomPokemonID = Math.floor(Math.random() * numberOfPokemons)
+        const promisePokemon = $.get(`https://pokeapi.co/api/v2/pokemon/${randomPokemonID}`)
+
+
+        return Promise.all([promiseUsers, promiseQuotes, promiseAboutMe, promisePokemon])
+            .then(data => {
+                console.log(data)
+                const mainUser = data[0].results[0]
+                // console.log(mainUser)
+
+                const friends = data[0].results.slice(1)
+                // console.log(friends)
+
+                const quote = data[1].quote
+                // console.log(quote)
+
+                const aboutme = data[2]
+                // console.log(aboutme)
+
+                const pokemon = data[3]
+                // console.log(pokemon)
+
+                const newObj = {
+                    user: mainUser,
+                    friends: friends,
+                    quote: quote,
+                    aboutMe: aboutme,
+                    pokemon : pokemon
+                }
+                console.log(newObj)
+
+                this.data = newObj;
+                return this.data
+            })
+    }
 }
 
 
-let users;
-const numberOfUsers = 7
-
-// API Users & freinds
-const promiseUsers = $.get(`https://randomuser.me/api/?results=${numberOfUsers}`, function (usersData) {
-
-    users = usersData.results[Math.floor(Math.random() * usersData.results.length)]
-
-}).then((users) => {
-    const mainUser = users.results[0]
-    $(".user-container").append("<div><img id = 'profile-pic' src =" + mainUser.picture.large + "></div>" + " " + "<div class = 'user-info'>" + mainUser.name.first + " " + mainUser.name.last + "<br>" + mainUser.location.city + ", " + mainUser.location.state + "</div></div>");
-    
-    const friends = users.results.slice(1)
-    console.log(friends)
-    const frindsMap = friends.map(f => {return `<ul > &#x2022; ${f.name.first} ${f.name.last} </ul>`})
-    $(".friends-container").append(frindsMap)
-})
-    .catch(error => console.log(error))
-
-
-
-// API Quotes
-const promiseQuotes = $.get(`https://api.kanye.rest`).then((quotes) => {
-    console.log(quotes)
-    $("p").append(`<br><p class= 'quote-container'>"${quotes.quote}"<br>- Kanye West</p>`)
-})
-    .catch(error => console.log(error))
-
-
-
-// API About me
-const promiseAboutMe = $.get(`https://baconipsum.com/api/?type=all-meat&paras=1`)
-    .then((aboutMe) => {
-        $(".meat-text").append("<br>" + aboutMe)
-    })
-    .catch(error => console.log(error))
-
-
-    
-// API Pokemons
-const numberOfPokemons = 949
-const randomPokemon = Math.floor(Math.random() * numberOfPokemons)
-
-const promisePokemon = $.get(`https://pokeapi.co/api/v2/pokemon/${randomPokemon}`).then((pokemons) => {
-    console.log(pokemons)
-    $(".pokemon-container").append("<img id='pokemon-image' src = "+ pokemons.sprites.front_default +">" +"<div id = 'pokemon-text'> Favorite Pokemon: " + pokemons.name + "</div>")
-})

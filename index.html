@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,32 +13,59 @@
 </head>
 
 <body>
-    <div class="container">	
-        <div class="user-container"></div>	
+
+    <div class="container">
+        <div class="user-container"></div>
         <div class="quote-container">
             <p>Favorite quote: </p>
-        </div>	
-        <div class="content-container">	
-            <div class="pokemon-container"></div>	
-            <div class="meat-container">
-                <div class="meat-text">About me:</div><br>
-            </div>	
-        </div>	
-        <div class="friends">	
+        </div>
+        <div class="content-container">
+            <div class="pokemon-container"></div>
+            <div class="meat-text">About me:</div>
+            <div class="meat-container"></div>
+        </div>
+        <div class="friends">
             <h4>Friends</h4><br>
-            <div class="friends-container">	
-            </div>	
-        </div>	
-        <div class="buttons">	
-            <button>Load User Data</button>	
-            <button>Display User</button>	
-        </div>	
+            <div class="friends-container">
+            </div>
+        </div>
+
     </div>
+    <div class="buttons">
+        <button id="dispalybtn">Display User</button>
+        <button id="savebtn">Save User</button>
+        <button id="loadbtn">Load User</button>
+        <select id="savedusers">
+            <option>Select User</option>
+        </select>
+    </div>
+
+    <script id="user-template" type="text/x-handlebars-template">
+        <div><img id = 'profile-pic' src="{{this.user.picture.large}}"><div class = 'user-info'>{{this.user.name.first}} {{this.user.name.last}} <br> {{this.user.location.city}}, {{this.user.location.state}}</div></div>
+    </script>
+
+    <script id="freinds-template" type="text/x-handlebars-template">
+        <ul > {{#each friends}}<li> &#x2022; {{this.name.first}} {{this.name.last}} {{/each}}</ul>
+    </script>
+
+    <script id="quote-template" type="text/x-handlebars-template">
+        <div class= 'quote-container'> <p>Favorite quote: </p>{{quote}}<br>"- Kanye West"</div>
+    </script>
+
+    <script id="pokemon-template" type="text/x-handlebars-template">
+      <img id='pokemon-image' src = "{{pokemon.sprites.front_default}}"><div id = 'pokemon-text'>Favorite Pokemon: {{pokemon.name}}</div>
+    </script>
+
+    <script id="aboutme-template" type="text/x-handlebars-template">
+        <div class="meat-text">{{aboutMe}}</div>
+    </script>
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.js" crossorigin="anonymous"></script>
-    <script src='main.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"></script>
     <script src='APIManager.js'></script>
+    <script src="Renderer.js"></script>
+    <script src='main.js'></script>
 </body>
 
 </html>
