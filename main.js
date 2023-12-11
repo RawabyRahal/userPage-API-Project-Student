@@ -23,8 +23,6 @@ $("#savebtn").on("click", function () {
 $("#loadbtn").on("click", function () {
     const selected = $("#savedusers option:selected").val();
 
-    alert(selected)
-
     for (let i in savedusers) {
         if (savedusers[i].user != null) {
             if (savedusers[i].user.name.first == selected) {
